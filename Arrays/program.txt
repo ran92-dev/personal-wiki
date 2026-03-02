@@ -1,0 +1,4 @@
+int arr[] = {1,2 ,3,4,5};
+char arra[] = {'a','b'}
+float arra[] = {'0.4f','89.8f'}
+

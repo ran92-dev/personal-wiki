@@ -1,0 +1,41 @@
+A circuit breaker does NOT protect Callers.
+It protects the service itself from
+Dependency meltdown
+Thread pool exhaustion
+Connection pool exhaustion
+Cascading failures
+
+
+🎯 When You DO NOT Need Circuit Breaker
+
+You probably don't need it if ALL of these are true:
+
+Script runs rarely
+
+Script makes 1 call at a time
+
+No concurrency
+
+GitLab failures are rare
+
+Service has low load
+
+No other future consumers expected
+
+🚨 When You STILL Need Circuit Breaker (Even With 1 Script)
+
+You should use it if:
+
+Script runs in a loop (100+ calls)
+
+Script runs concurrently
+
+Multiple pipelines triggered in parallel
+
+GitLab sometimes rate-limits (429)
+
+Your service uses threads/workers
+
+You want fast-fail behavior
+
+You want to avoid retry storm

@@ -1,0 +1,78 @@
+What is Exponential backoff?
+a. Its a technique that allows an application to retry an operation that has failed, with 
+prograssively increasing wait time between retries.
+Why we need it ?
+a. If we retry failed operation without exponential backoff we may overlaod target with many calls.
+How?
+a. With each failure, the application increases the wait time between retries exponentially. 
+This allows the system to recover from any transient failures that may cause the issue.
+Also it ensure that the application doesn't flood the system with retries and making the problem more severe.
+
+Example1:
+We have a script that makes an API call that mat occasionally return an error due to network connectivity issue. 
+We would like to implement a retry strategy that retries API call upo to 5 times with increasing between subsequent retires.
+
+
+Retry Attempt	Delay Time (seconds)
+1	               1.0
+2	               2.0
+3	               4.0
+4	               8.0
+5	               16.0 
+
+This exponential wait between retries gives service enough time to recover from the error and reduce retry storms.
+
+The Real Problem: Synchronized Retries
+Imagine 10,000 clients call an API
+API goes down
+All clients retry with exponential backoff.
+All clients will retry at:
+
+t = 1s
+t = 2s
+t = 4s
+t = 8s
+
+
+All of them retries exactly at same time.
+So server get huge traffic spikes every few seconds.
+This is called 
+Thundering Herd Problem:
+All clients wake up together and hit server simultaneously. 
+Even with exponential backoff, the load is still synchronized. 
+When the server recovers:
+
+It immediately gets hammered again
+
+It may crash again
+
+Recovery becomes unstable
+
+This is how distributed systems collapse.
+
+The Solution:
+use exponential backoff with jitter:
+Instead of retrying exactly at 4 second, you add randomness.
+Retry at random time between 0-4 second.
+
+Now All clients retries at different time 
+Client A → 3.2s
+Client B → 1.7s
+Client C → 3.9s
+Client D → 0.8s
+
+load become distributed.
+Jitter adds random variation to the delay between retry attempts. This helps spread out retries and avoids system load spikes.
+
+it reduces system load and avoid Spikes through jitter.
+this allows retries are not synchronous and reduces the liklihood of retry storm.
+Retry Attempt	Delay Time (seconds)	Jitter Range (seconds)	Actual Delay Time (seconds)
+1	                    1.0	                0.5	                        1.0 – 1.5
+2	                    2.0	                0.5	                        1.5 – 2.5
+3	                    4.0	                0.5	                        3.5 – 4.5
+4	                    8.0	                0.5	                        7.5 – 8.5
+5	                    16.0	            0.5	                        15.5 – 16.5
+
+
+
+Because without jitter, retries remain synchronized across clients, causing retry storms and thundering herd problems. Adding randomness spreads traffic and stabilizes recovery.

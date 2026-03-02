@@ -1,0 +1,26 @@
+Interviewers may ask:
+
+What is exponential backoff?
+
+What is jitter?
+
+How do you prevent retry storms?
+
+How do retries affect idempotency?
+
+If you want, I can explain:
+
+✅ Exponential backoff with jitter
+
+✅ Idempotency in distributed systems
+
+✅ How retry works in microservices
+
+✅ Real-world retry design question
+
+Just tell me your level:
+Beginner / Intermediate / System Design Level 🚀
+
+Book:
+Python for Devops
+

@@ -1,0 +1,128 @@
+What is an Array?
+Array is a data structure that stores items at contiguous locations.
+In C/C++ and in Java primitive array actual elements are stored at contiguous locations.
+In python, js, java non-primitive array ( ArrayList), references are stored at contigious locations.
+
+Properties:
+1. Store data at contigious locations. ( what are the benifits?)
+2. Stores items of same data type
+
+Benifits:
+Random Access: We can access any item in Array in O(1) time complexity, as we have base address
+of array and each size of each iteam ( which is fixed).
+ex-> address of ith item where each item is of size 4byte will be baseAddress+(size*position)
+    [][][][] [][][][] [][][][]  starting from 2
+    address of 2nd item = 2+(4*1)= 6 
+    address of item at ith positon = base+(size*i)
+
+Cache Fridendly: Size items or reference are stored at contigious location we get advantage of 
+locality of reference.
+
+Where Array should not be use?
+where we have operations like insert in the middle, delete from middle
+and search in unsorted data.
+Disadvanges:
+Insertion happen only in last. 
+deleteion if in middle we have to shift other elements
+
+More about Cache Fridendly:
+Programs tends to access the same memory location repeatedly, 
+example accessing same Array item ( Temporal locality)
+
+Also tends to access nearby location in time ( Spatial locality)
+
+
+temporal: reusing the same array element soon . Eg: Loop with repeated access
+benifits from cache hits.
+Spatial: scanning an array sequentially (traversing) benifit because
+one cache load brings many adjacent elements
+
+Sequential access is cache-Fridendly and fast.
+Otherwise in linked lists, it may cause cache miss and slow.
+
+Prefer contigious arrays over scattered allocation for hot data.
+Pack friquently used fields together
+Use loop order , blocking, or data layout transforms to increse
+spatial locaity.
+
+
+for(i=0;i<n;i++) a[i]++
+
+a[i]=a[i]+1;
+it read a[i] where i = 0 to n;
+read contigious memory ,maximizes cache hits.
+
+Inner-loop order: for row {
+    for col {
+        a[row][col]
+    }
+}
+
+Blocking / Tiling: For larger matrices , process blocks or tiles 
+that fit cache to reuse loaded data.
+
+Data Layout: 
+
+Prefetching & Vectorization: 
+Minimize Strides: 
+Memory Alignment & Allocation: Align hot arrays to 
+cache-line boundaries and allocate them 
+contigiously to reduce TLB/cache misses.
+
+Avoid Pointer Chasing: 
+MultiThreading: 
+
+When to use Array:
+Fixed Size data
+Performance critical inner-loops
+numeric work (DSP, ML, graphics)
+dense matrices or  images 
+implementing low level buffers
+circular buffers
+memory pool
+When ever u need constant time O(1) index access.
+
+When not to use?/
+Frequently growing or shrinking collections: As after
+insertion or deletion we need to shift other elememts
+irrigular pointer structures where dynamic links are primary
+When elements must be individually separetelty allocated 
+for lifetime access.
+
+Arrays win for throughput and locaity but cost O(n)
+for midsize insert/delete and require contigious memory
+SO large array may hit fragmentation/large allocation limits
+
+Use dynamic array when you need resizing but prefer primitive
+flat buffers for hottest paths.
+
+O(1) index access or sequential throughput use array
+need frequent arbitraty insertion/deletion use linked lists
+
+
+Why do we need Array?
+Assumer we need to store students and there marks
+we can do this by declaring 5 variables for each student.
+int Ram_marks = 300
+int Ravi_marks = 400
+
+But what if number of students will grow to 400or 500
+it would be challenging to find and manipulate those records.
+
+Arrays can be classified in 2 ways:
+On basis of size : Fixed size, Dynamic size
+On basis of dimension: One-dimensional array, multi-dimensional array
+
+Fixed Size: Fixed size memory is allocated during initialization time
+
+int aa[] ={1,2}
+int[] a = new int[5];
+int[] b = {1,2,3,4};
+
+Dynamic Array: Size of array changes as per user requirement
+during execution of Programs
+we can add or remove elements as per our need
+No need to allocate a fix size
+Memor is dynamically allocated and deallocated 
+ArrayList<Integer> a= new ArrayList<Integer>();
+
