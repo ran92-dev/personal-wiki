@@ -1,0 +1,33 @@
+Minimum Size SubArray Sum:
+Given:  int num[]= new int[]{};
+        int target;
+Return: mimimal length of subarray whose sum is greated or equal to target.
+If no sub array return 0.
+
+Pattern: 
+        - Array 
+        - Continuous
+        - minimum lenth of subarray
+It seems sliding window
+
+[1,3,4,5,6,7,7,6, 0]
++ive integers, 
+can be duplicate
+sliding window of minimum size =1 will take starting from 0th index.
+min_win_size=1;
+check if elemtsSum>=target 
+if yes
+        win_size--;
+        exclude from left
+        min_win_size= min(window_size , min_win_size);
+
+else:
+        win_size++;
+        include right element in window
+        check_again;
+Once whole array is traversed, O(n) will have min_size_windows whcih satisfies our condition.
+
+Issue: if we keep on incrementing right and increasing size of window we may loose minimum subarray of sum>=target.
+
+Hence, in this problem wwe need to use variable sliding window_size
+
